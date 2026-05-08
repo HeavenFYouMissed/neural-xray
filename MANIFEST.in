@@ -1,0 +1,3 @@
+recursive-include neural_xray/server/static *
+include LICENSE
+include README.md

@@ -30,10 +30,14 @@ dependencies = [
     "transformers>=4.35.0",
     "accelerate>=0.25.0",
     "numpy>=1.24.0",
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.29.0",
+    "pydantic>=2.6.0",
+    "websockets>=12.0",
 ]
 
 [project.optional-dependencies]
-# GPU quantization via bitsandbytes (Linux/Windows CUDA only)
+# GPU quantization via bitsandbytes (Linux/Windows CUDA only — not Mac)
 gpu = [
     "bitsandbytes>=0.41.0",
 ]
@@ -55,3 +59,6 @@ Issues = "https://github.com/HeavenFYouMissed/neural-xray/issues"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["neural_xray*"]
+
+[tool.setuptools.package-data]
+"neural_xray.server" = ["static/**/*", "static/*"]

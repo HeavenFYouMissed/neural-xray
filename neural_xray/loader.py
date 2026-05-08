@@ -91,6 +91,14 @@ class ModelLoader:
             return torch.cuda.get_device_properties(0).total_memory / 1e9
         return 0.0
 
+    def _mps_available(self) -> bool:
+        return (
+            hasattr(torch, "backends")
+            and hasattr(torch.backends, "mps")
+            and torch.backends.mps.is_available()
+            and torch.backends.mps.is_built()
+        )
+
     def _pick_quantization(self) -> str:
         vram = self._vram_gb()
 
@@ -101,6 +109,10 @@ class ModelLoader:
             bnb_available = True
         except ImportError:
             pass
+
+        # Apple Silicon — MPS doesn't support bitsandbytes, use float16
+        if self._mps_available():
+            return "float16"
 
         if vram == 0:
             return "8bit" if bnb_available else "float32"  # CPU
@@ -159,13 +171,23 @@ class ModelLoader:
             kwargs["device_map"] = "auto"
         elif quant == "float16":
             kwargs["dtype"] = torch.float16
-            kwargs["device_map"] = "auto"
+            if self._mps_available():
+                # MPS doesn't accept device_map="auto"; we'll move manually
+                pass
+            else:
+                kwargs["device_map"] = "auto"
         else:  # float32
             kwargs["dtype"] = torch.float32
             if torch.cuda.is_available():
                 kwargs["device_map"] = "auto"
 
         model = AutoModelForCausalLM.from_pretrained(**kwargs)
+        # Move to MPS if applicable and not already placed
+        if self._mps_available() and not torch.cuda.is_available():
+            try:
+                model = model.to("mps")
+            except Exception as e:
+                print(f"[neural-xray] MPS move failed ({e}); falling back to CPU.")
         model.eval()
         return model
 
