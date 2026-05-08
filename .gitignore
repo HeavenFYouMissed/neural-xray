@@ -20,6 +20,7 @@ env/
 
 # Outputs
 *.html
+!neural_xray/server/static/**/*.html
 vectors.json
 autopsy_output/
 blueprints/
