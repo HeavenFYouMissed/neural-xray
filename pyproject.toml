@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "neural-xray"
+version = "0.1.0"
+description = "X-ray vision into any LLM — concept tracing, diagnostics, knowledge surgery"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "KandD Labs", email = "kanddlabs@gmail.com" }]
+keywords = ["llm", "interpretability", "mechanistic-interpretability", "transformers", "neural-network", "inspection"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.9"
+
+# Core deps — works on CPU, no GPU required
+dependencies = [
+    "torch>=2.2.0",
+    "transformers>=4.35.0",
+    "accelerate>=0.25.0",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+# GPU quantization via bitsandbytes (Linux/Windows CUDA only)
+gpu = [
+    "bitsandbytes>=0.41.0",
+]
+# Full SAE + cartography features
+full = [
+    "bitsandbytes>=0.41.0",
+    "scipy>=1.10.0",
+    "scikit-learn>=1.3.0",
+]
+
+[project.scripts]
+neural-xray = "neural_xray.cli:main"
+
+[project.urls]
+Homepage = "https://model-surgery.com"
+Repository = "https://github.com/HeavenFYouMissed/neural-xray"
+Issues = "https://github.com/HeavenFYouMissed/neural-xray/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["neural_xray*"]

@@ -1,0 +1,8 @@
+# Core — works on CPU, no GPU required
+torch>=2.2.0
+transformers>=4.35.0
+accelerate>=0.25.0
+numpy>=1.24.0
+
+# Optional — GPU quantization (Linux/Windows CUDA)
+# bitsandbytes>=0.41.0
