@@ -13,7 +13,19 @@
 [![Models](https://img.shields.io/badge/models-any%20HF%20transformer-purple.svg)]()
 
 **Trace concepts • Diagnose health • Transplant knowledge • Abliterate directions • Visualize attention**
+<div align="center">
+## Research behind this repo
 
+Open **Neural-Xray** to see inside a model; the **surgery** tab comes from **Model Surgery** experiments (paper draft + saved runs).  Archive: [Zenodo 10.5281/zenodo.19467270](https://doi.org/10.5281/zenodo.19467270).
+
+| Scale | What we ran | Headline |
+| ----- | ----------- | -------- |
+| Laptop | GPT-2 → smaller models | Saved before/after evidence pack |
+| ~7B | Pythia-6.9B ↔ Mistral-7B | **~98.9%** alignment on 25 topics (saved JSON in research tree) |
+| ~7B + training | Swahili: small copy, then same lessons | Copy-first run stayed ahead in logged A/B |
+| ~70B | LLaMA-3.1-70B → Qwen2.5-72B | Paper: **30** topics, **>99%** alignment — rerun on H100-class GPU |
+
+Re-run the tests and compare your numbers.
 
 </div>
 
