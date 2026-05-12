@@ -187,7 +187,7 @@ async def ws_remote(websocket: WebSocket):
 # the SPA catch-all does not shadow /api/* and /ws/* routes)
 # ---------------------------------------------------------------------------
 from fastapi.staticfiles import StaticFiles  # noqa: E402
-from fastapi.responses import FileResponse   # noqa: E402
+from fastapi.responses import FileResponse, Response  # noqa: E402
 from fastapi import HTTPException as _HTTPException  # noqa: E402
 from pathlib import Path as _Path            # noqa: E402
 
@@ -195,11 +195,19 @@ _static_dir = _Path(__file__).parent / "static"
 if _static_dir.exists() and (_static_dir / "index.html").exists():
     _assets = _static_dir / "assets"
     if _assets.exists():
+        # Hashed asset filenames (index-Abc123.js) — safe to cache forever
         app.mount("/assets", StaticFiles(directory=str(_assets)), name="assets")
 
     @app.get("/")
     async def _index():
-        return FileResponse(str(_static_dir / "index.html"))
+        # index.html must NEVER be cached — it's the only file whose name
+        # doesn't change between deploys, so browsers would serve stale HTML
+        # that references an old JS bundle hash forever.
+        resp = FileResponse(str(_static_dir / "index.html"))
+        resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        resp.headers["Pragma"] = "no-cache"
+        resp.headers["Expires"] = "0"
+        return resp
 
     @app.get("/{full_path:path}")
     async def _spa_fallback(full_path: str):
@@ -208,7 +216,11 @@ if _static_dir.exists() and (_static_dir / "index.html").exists():
         f = _static_dir / full_path
         if f.is_file():
             return FileResponse(str(f))
-        return FileResponse(str(_static_dir / "index.html"))
+        resp = FileResponse(str(_static_dir / "index.html"))
+        resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        resp.headers["Pragma"] = "no-cache"
+        resp.headers["Expires"] = "0"
+        return resp
 
 
 # ---------------------------------------------------------------------------

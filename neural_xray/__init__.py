@@ -39,6 +39,7 @@ CLI:
 __version__ = "0.1.0"
 
 from .loader import ModelLoader
+from .mapper import ArchitectureMapper
 from .extractor import ConceptExtractor
 from .cluster import ConceptCluster
 from .blueprint import NeuralBlueprint
