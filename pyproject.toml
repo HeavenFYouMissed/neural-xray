@@ -61,4 +61,4 @@ where = ["."]
 include = ["neural_xray*"]
 
 [tool.setuptools.package-data]
-"neural_xray.server" = ["static/**/*", "static/*"]
+"neural_xray" = ["server/static/**/*", "server/static/*", "server/static/assets/*"]
