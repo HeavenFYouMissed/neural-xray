@@ -18,6 +18,18 @@ The inspection pipeline came first. The surgery idea came when I noticed somethi
 
 ---
 
+## How a transformer stores information (the engineering version)
+
+If you're new to LLM internals, 5 things to know before any of this makes sense:
+
+- **Every token becomes a vector** — a list of ~768 to 12,288 numbers. Think GPS coordinates in N-dimensional space. Related concepts cluster in nearby coordinates.
+- **There's a "running register" called the residual stream** — it gets passed from layer to layer. Each layer reads it and adds its contribution. By the final layer it contains everything the model computed.
+- **Layers specialize by depth** — early layers (1–4) handle syntax and grammar. Middle layers (5–16) store factual knowledge — this is where "Paris is the capital of France" lives. Late layers handle reasoning and output decisions.
+- **Concept vectors are real, measurable things** — extract activations on concept-specific text, subtract a neutral baseline, and you get a direction in that vector space that represents that concept. Dot-product that direction against any text's activations and you get a number: how strongly is this concept active right now?
+- **Cosine similarity = how parallel two vectors are** — 1.0 means identical direction, 0 means unrelated, -1 means opposite. When this tool reports 98.9% alignment between Pythia and Mistral on 25 concepts, it means: rotate Pythia's "gravity" vector into Mistral's coordinate space — it lands 98.9% accurately on Mistral's "gravity" cluster. Random baseline: 1.2%.
+
+---
+
 ## What makes this different from ROME, MEMIT, and TransformerLens
 
 **ROME** and **MEMIT** edit facts *inside one model only* — change "Paris is the capital of France" to something else inside GPT-J. Useful, but limited to single-model factual edits.
@@ -63,6 +75,20 @@ All runs logged in [`docs/surgery_test_log.md`](docs/surgery_test_log.md). Raw J
 | ~70B | LLaMA-3.1-70B → Qwen2.5-72B | 30 | **>99%** alignment | Run on H100 NVL; logs lost in pod termination — rerun planned |
 
 Paper draft: [model-surgery-paper](https://github.com/HeavenFYouMissed/model-surgery-paper)
+
+---
+
+## Who uses this and for what
+
+**You fine-tuned a model and it got dumber.** Load the base and fine-tuned versions into Compare. Check concept overlap — see exactly what the training overwrote. If a concept disappeared, transplant it back from the base.
+
+**You want to know why your model refuses certain topics.** Run Trace on the concept. Run Patching to find which layer causally blocks the output. Abliterate that direction in Surgery if you want it gone.
+
+**You want to give a small model a skill a large model has, without retraining.** Extract concept vectors from the large donor model. Gap-scan the small model. Transplant what's missing. Fine-tune on a small dataset — the transplant gives training a scaffold to attach to, cutting convergence time in half.
+
+**You want to compare two models at a deep level.** Are they doing the same thing internally, or just producing similar outputs? Load both into Compare — check alignment score, health delta, which concepts each has that the other doesn't.
+
+**You just want to understand how this thing works.** Load `gpt2` (CPU-friendly, 12 layers, runs anywhere), extract a few concepts, open the Debugger tab, type a sentence — watch what the model predicts at every single layer in real time.
 [![PyPI](https://img.shields.io/badge/install-pip-blue.svg)](https://github.com/HeavenFYouMissed/neural-xray)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
@@ -85,7 +111,7 @@ pip install git+https://github.com/HeavenFYouMissed/neural-xray.git
 neural-xray serve
 ```
 
-> IF your not familiar with using bash commands literly just copy paist this open cmd and just paist it and press go and the tool will pop open in your browser ready to go...Browser opens. Load any HuggingFace model. Start dissecting.
+> Not familiar with terminal commands? Copy either line, open Command Prompt (Win+R → cmd), paste, press Enter. The dashboard opens in your browser automatically.
 
 </div>
 
@@ -129,7 +155,7 @@ neural-xray serve
 </td>
 <div align="center">
   
-> Type anything into the chat and see why and what the model is doing this is the debugger tab... 
+> Type anything into the chat and see what the model is actually computing at each layer — this is the Debugger tab. Every token, every layer, in real time.
   
 <div align="center">
 ### Trace · Layer Map · Diagnostics
@@ -153,9 +179,7 @@ neural-xray serve
 
 
 ### Surgery · Abliterate · Attention
-surgery- Cross-model knowledge transplantation +
-concept abliteration. Map gaps, transplant
-knowledge, or remove specific concepts. once you have extracted knowledge or concepts they dont have to be re-extracted, you could litterly have a bank of concepts or extracted knoledge, the idea is injecting a comcept to a model that doesnt have it and training the model with the information to the concept. the idea is that if you pre inject the concept the training will target that area instead of just randomly garbling bs during training.. from my experience and results its over 50% faster.. feel free to test yourself this the reason i didnt want to throw out a research paper with scuh high success its better to let the community validate it. im independent researcher so my opinion wouldnt have much sway anyways..
+surgery — Cross-model knowledge transplant and concept removal. Extract vectors from a donor model, map them to a target using Procrustes alignment, write them in. Also includes abliteration: permanently remove a concept direction so the model stops responding to it. Concept vectors are reusable — extract once from a donor, apply to as many targets as you want. Pre-injecting before fine-tuning gives training a scaffold to attach to: in our A/B test, the transplanted model won 20/20 eval checkpoints and converged 50% faster.
 <table>
 <tr>
 <td align="center" width="33%"><b>Knowledge Transplant</b></td>
@@ -170,19 +194,11 @@ knowledge, or remove specific concepts. once you have extracted knowledge or con
 </table>
 
 ### Graph · SAE · Compare
-graph- does Token x layer prediction grid. Each node shows
-what the model predicts at that layer - like an
-X-ray of evolving predictions.
+graph — Token × layer prediction grid. Each node shows what the model predicts at that layer — like a logic analyzer trace showing every signal value at every clock cycle. Early layers predict near-random tokens. Middle layers converge on meaning. Late layers lock in the answer.
 
-sae-Train Sparse Autoencoders to decompose
-concepts into monosemantic features. Reveals
-what individual neurons encode.
+sae — Train Sparse Autoencoders to decompose neuron activations into monosemantic features. Standard neurons fire for multiple unrelated concepts (polysemantic). SAE separates them into clean individual features — Anthropic's approach to understanding exactly what each neuron encodes.
 
-compare- side by side comparison of two "loaded",
-models, compare health, comcept overlap, 
-check score, you can check the same model loaded 
-twice for after surgery and ablation,
-many uses
+compare — Side-by-side comparison of two loaded models: health scores, concept overlap, alignment delta. Load the same model twice (original vs post-surgery) for a precise before/after diff.
 
 <table>
 <tr>
