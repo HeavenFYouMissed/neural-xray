@@ -14,8 +14,10 @@
 
 **Trace concepts • Diagnose health • Transplant knowledge • Abliterate directions • Visualize attention**
 
+
 </div>
 
+CPU works for GPT-2-scale demos and learning the UI. For real models and surgery workflows, treat a GPU (or Apple Silicon) as the practical requirement — mainly for VRAM and speed, not because the tool is CUDA-only.
 ---
 
 <div align="center">
