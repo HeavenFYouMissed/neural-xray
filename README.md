@@ -1,10 +1,22 @@
 <div align="center">
 
-<img width="1184" height="532" alt="image (3)" src="https://github.com/user-attachments/assets/563767cd-f789-47e1-8333-910c29cc2119" />
+<img width="1184" height="532" alt="Neural-Xray banner" src="https://github.com/user-attachments/assets/563767cd-f789-47e1-8333-910c29cc2119" />
 
-#  Neural-Xray
+# Neural-Xray
 
 ### X-ray vision into any LLM — and cross-model knowledge transplant without retraining
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![CPU · GPU · Apple Silicon](https://img.shields.io/badge/runs%20on-CPU%20%7C%20CUDA%20%7C%20MPS-orange.svg)]()
+[![Models](https://img.shields.io/badge/models-any%20HF%20transformer-purple.svg)]()
+[![GitHub release](https://img.shields.io/github/v/release/HeavenFYouMissed/neural-xray)](https://github.com/HeavenFYouMissed/neural-xray/releases)
+
+**Trace concepts · Diagnose health · Transplant knowledge · Abliterate directions · Visualize attention**
+
+Archive: [Zenodo 10.5281/zenodo.19467270](https://doi.org/10.5281/zenodo.19467270) · Paper: [model-surgery-paper](https://github.com/HeavenFYouMissed/model-surgery-paper)
+
+</div>
 
 ---
 
@@ -58,7 +70,7 @@ If you're new to LLM internals, 5 things to know before any of this makes sense:
 - **[LoRA](https://arxiv.org/abs/2106.09685)** — low-rank weight decomposition. Used here as a diagnostic probe, not for training efficiency.
 - **[Platonic Representation Hypothesis](https://arxiv.org/abs/2405.07987)** — larger models converge toward a shared geometric representation of reality regardless of architecture. Consistent with our scale results: 91.7% at 124M → 98.9% at 7B → >99% at 70B.
 - **[Logit Lens](https://www.lesswrong.com/posts/AcKRB8wDpdaN6v6ru/interpreting-gpt-the-logit-lens)** — reading predictions from intermediate layers. Used in trace/stepthrough views.
-- **Sparse Autoencoders** (Anthropic 2023-2024) — monosemantic feature decomposition. Available as the SAE tab.
+- **Sparse Autoencoders** (Anthropic 2023–2024) — monosemantic feature decomposition. Available as the SAE tab.
 
 ---
 
@@ -67,14 +79,12 @@ If you're new to LLM internals, 5 things to know before any of this makes sense:
 All runs logged in [`docs/surgery_test_log.md`](docs/surgery_test_log.md). Raw JSON in [`experiment_results/`](experiment_results/) and [`evidence/`](evidence/).
 
 | Scale | Donor → Target | Concepts | Result | Notes |
-|-------|---------------|----------|--------|-------|
+|-------|----------------|----------|--------|-------|
 | 124M | GPT-2 → DistilGPT-2 | 3 | **+15.5%** probe alignment | Full before/after evidence pack saved |
 | 7B | Pythia-6.9B → Mistral-7B | 25 | **98.9%** mean cosine | Per-concept JSON; null baseline 1.2% |
 | 7B + train | Mistral → Pythia + fine-tune | 4 | **20/20 eval wins**, 50% faster convergence | ARM B beats control at every checkpoint |
 | 7B self-surgery | Pythia only (no donor) | — | All 3 approaches failed | Strengthens the cross-model case |
 | ~70B | LLaMA-3.1-70B → Qwen2.5-72B | 30 | **>99%** alignment | Run on H100 NVL; logs lost in pod termination — rerun planned |
-
-Paper draft: [model-surgery-paper](https://github.com/HeavenFYouMissed/model-surgery-paper)
 
 ---
 
@@ -89,22 +99,12 @@ Paper draft: [model-surgery-paper](https://github.com/HeavenFYouMissed/model-sur
 **You want to compare two models at a deep level.** Are they doing the same thing internally, or just producing similar outputs? Load both into Compare — check alignment score, health delta, which concepts each has that the other doesn't.
 
 **You just want to understand how this thing works.** Load `gpt2` (CPU-friendly, 12 layers, runs anywhere), extract a few concepts, open the Debugger tab, type a sentence — watch what the model predicts at every single layer in real time.
-[![PyPI](https://img.shields.io/badge/install-pip-blue.svg)](https://github.com/HeavenFYouMissed/neural-xray)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![CPU · GPU · Apple Silicon](https://img.shields.io/badge/runs%20on-CPU%20%7C%20CUDA%20%7C%20MPS-orange.svg)]()
-[![Models](https://img.shields.io/badge/models-any%20HF%20transformer-purple.svg)]()
 
-**Trace concepts • Diagnose health • Transplant knowledge • Abliterate directions • Visualize attention**
-<div align="center">
-> Archive: [Zenodo 10.5281/zenodo.19467270](https://doi.org/10.5281/zenodo.19467270) | Paper: [model-surgery-paper](https://github.com/HeavenFYouMissed/model-surgery-paper)
-
-CPU works for GPT-2-scale demos and learning the UI. For real models and surgery workflows, treat a GPU (or Apple Silicon) as the practical requirement — mainly for VRAM and speed, not because the tool is CUDA-only.
 ---
 
 <div align="center">
 
-###  One command. Full dashboard.
+### One command. Full dashboard.
 
 ```bash
 pip install git+https://github.com/HeavenFYouMissed/neural-xray.git
@@ -113,17 +113,19 @@ neural-xray serve
 
 > Not familiar with terminal commands? Copy either line, open Command Prompt (Win+R → cmd), paste, press Enter. The dashboard opens in your browser automatically.
 
+CPU works for GPT-2-scale demos and learning the UI. For real models and surgery workflows, treat a GPU (or Apple Silicon) as the practical requirement — mainly for VRAM and speed, not because the tool is CUDA-only.
+
 </div>
 
 ---
 
-##  What you get
+## What you get
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-###  The Lab
+### The Lab
 - **Trace** — watch a concept flow through every layer
 - **Diagnose** — 7-layer health scan in one click
 - **Layer Map** — see which concepts live where
@@ -133,7 +135,7 @@ neural-xray serve
 </td>
 <td width="50%" valign="top">
 
-###  The OR
+### The OR
 - **Surgery** — transplant knowledge between models
 - **Abliterate** — remove a concept direction permanently
 - **Patching** — causal tracing & activation patching
@@ -146,19 +148,22 @@ neural-xray serve
 
 ---
 
-##  The Dashboard
+## The Dashboard
 
-> My favorite the debugging tab.
-<tr>
-<td width="50%" valign="top">
-<img width="800" height="500" alt="Screenshot 2026-04-06 064623" src="https://github.com/user-attachments/assets/555436fe-eebc-46df-8507-01ecb16423c6" />
-</td>
+### Debugger
+
 <div align="center">
-  
-> Type anything into the chat and see what the model is actually computing at each layer — this is the Debugger tab. Every token, every layer, in real time.
-  
-<div align="center">
+
+<img width="800" height="500" alt="Debugger tab — type anything and see what the model computes at each layer in real time" src="https://github.com/user-attachments/assets/555436fe-eebc-46df-8507-01ecb16423c6" />
+
+> Type anything and watch what the model predicts at every layer in real time. Every token, every layer.
+
+</div>
+
+---
+
 ### Trace · Layer Map · Diagnostics
+
 <table>
 <tr>
 <td align="center" width="33%"><b>Concept Trace</b></td>
@@ -166,20 +171,18 @@ neural-xray serve
 <td align="center" width="33%"><b>Diagnostics</b></td>
 </tr>
 <tr>
-<td><img width="1438" height="823" alt="image" src="https://github.com/user-attachments/assets/904c0e1c-d329-459a-b8cd-ca9df22a69da" />
-<td><img width="1913" height="1084" alt="image" src="https://github.com/user-attachments/assets/2861cadc-c3cd-460b-aeec-084cb0ce11e5" />
-<td><img width="1437" height="812" alt="image" src="https://github.com/user-attachments/assets/563fcd48-18d6-4cce-86cf-46714cbb990b" />
-
+<td><img width="1438" height="823" alt="Concept Trace" src="https://github.com/user-attachments/assets/904c0e1c-d329-459a-b8cd-ca9df22a69da" /></td>
+<td><img width="1913" height="1084" alt="Layer Map" src="https://github.com/user-attachments/assets/2861cadc-c3cd-460b-aeec-084cb0ce11e5" /></td>
+<td><img width="1437" height="812" alt="Diagnostics" src="https://github.com/user-attachments/assets/563fcd48-18d6-4cce-86cf-46714cbb990b" /></td>
+</tr>
 </table>
 
-
-
-
-
-
+---
 
 ### Surgery · Abliterate · Attention
-surgery — Cross-model knowledge transplant and concept removal. Extract vectors from a donor model, map them to a target using Procrustes alignment, write them in. Also includes abliteration: permanently remove a concept direction so the model stops responding to it. Concept vectors are reusable — extract once from a donor, apply to as many targets as you want. Pre-injecting before fine-tuning gives training a scaffold to attach to: in our A/B test, the transplanted model won 20/20 eval checkpoints and converged 50% faster.
+
+Cross-model knowledge transplant, concept removal, and attention head visualization. Extract vectors from a donor model, map them to a target using Procrustes alignment, write them in. In the A/B test, the transplanted model won 20/20 eval checkpoints and converged 50% faster.
+
 <table>
 <tr>
 <td align="center" width="33%"><b>Knowledge Transplant</b></td>
@@ -187,18 +190,15 @@ surgery — Cross-model knowledge transplant and concept removal. Extract vector
 <td align="center" width="33%"><b>Attention Heads</b></td>
 </tr>
 <tr>
-<td><img width="1910" height="1077" alt="Screenshot 2026-05-12 023036" src="https://github.com/user-attachments/assets/2794905e-c5e9-4ab5-a615-b9875e1823d5" /></td>
-<td><img width="1414" height="793" alt="Screenshot 2026-05-12 015604" src="https://github.com/user-attachments/assets/ec1055b9-171d-4ca5-8935-83c9e92e7155" /></td>
-<td><img width="1908" height="926" alt="Screenshot 2026-05-12 015922" src="https://github.com/user-attachments/assets/15276ef2-fa83-425a-b41b-baa3617418f5" /></td>
+<td><img width="1910" height="1077" alt="Knowledge Transplant" src="https://github.com/user-attachments/assets/2794905e-c5e9-4ab5-a615-b9875e1823d5" /></td>
+<td><img width="1414" height="793" alt="Concept Removal" src="https://github.com/user-attachments/assets/ec1055b9-171d-4ca5-8935-83c9e92e7155" /></td>
+<td><img width="1908" height="926" alt="Attention Heads" src="https://github.com/user-attachments/assets/15276ef2-fa83-425a-b41b-baa3617418f5" /></td>
 </tr>
 </table>
 
+---
+
 ### Graph · SAE · Compare
-graph — Token × layer prediction grid. Each node shows what the model predicts at that layer — like a logic analyzer trace showing every signal value at every clock cycle. Early layers predict near-random tokens. Middle layers converge on meaning. Late layers lock in the answer.
-
-sae — Train Sparse Autoencoders to decompose neuron activations into monosemantic features. Standard neurons fire for multiple unrelated concepts (polysemantic). SAE separates them into clean individual features — Anthropic's approach to understanding exactly what each neuron encodes.
-
-compare — Side-by-side comparison of two loaded models: health scores, concept overlap, alignment delta. Load the same model twice (original vs post-surgery) for a precise before/after diff.
 
 <table>
 <tr>
@@ -207,17 +207,15 @@ compare — Side-by-side comparison of two loaded models: health scores, concept
 <td align="center" width="33%"><b>Model Compare</b></td>
 </tr>
 <tr>
-<td><img width="1894" height="1024" alt="Screenshot 2026-05-12 020149" src="https://github.com/user-attachments/assets/ad64f631-5e96-4e85-b097-05eab3ebd988" /></td>
-<td><img width="1901" height="1070" alt="Screenshot 2026-05-12 020542" src="https://github.com/user-attachments/assets/e4de0e1c-bb31-4f6d-805a-dc372eca9ec8" /></td>
-<td><img width="1903" height="1070" alt="Screenshot 2026-05-12 020937" src="https://github.com/user-attachments/assets/f846d36d-29bc-4ff1-b69f-a8bde8223661" /></td>
+<td><img width="1894" height="1024" alt="Activation Graph" src="https://github.com/user-attachments/assets/ad64f631-5e96-4e85-b097-05eab3ebd988" /></td>
+<td><img width="1901" height="1070" alt="SAE Features" src="https://github.com/user-attachments/assets/e4de0e1c-bb31-4f6d-805a-dc372eca9ec8" /></td>
+<td><img width="1903" height="1070" alt="Model Compare" src="https://github.com/user-attachments/assets/f846d36d-29bc-4ff1-b69f-a8bde8223661" /></td>
 </tr>
 </table>
 
-</div>
-
 ---
 
-##  Quick start
+## Quick start
 
 ### Option A — The full GUI
 
@@ -231,12 +229,12 @@ Browser opens at `http://127.0.0.1:8000`. Load a model. Click around.
 ### Option B — The CLI
 
 ```bash
-neural-xray diagnose  --model gpt2
-neural-xray trace     --model gpt2 --concept fire
-neural-xray map       --model gpt2
-neural-xray extract   --model gpt2 --concepts fire water gravity --output vecs.json
-neural-xray visualize --model gpt2 --output viz.html
-neural-xray surgery   --source gpt2 --target distilgpt2 --concepts fire water
+neural-xray diagnose   --model gpt2
+neural-xray trace      --model gpt2 --concept fire
+neural-xray map        --model gpt2
+neural-xray extract    --model gpt2 --concepts fire water gravity --output vecs.json
+neural-xray visualize  --model gpt2 --output viz.html
+neural-xray surgery    --source gpt2 --target distilgpt2 --concepts fire water
 neural-xray abliterate --model gpt2 --concept hate --save ./gpt2-cleaned
 ```
 
@@ -257,23 +255,28 @@ report = ModelDiagnostics(loader).run_all()
 print(f"Overall: {report.overall_score:.3f}")
 ```
 
-<div align="center">
+---
 
-##  Hardware
-
-| Platform        | Status | Notes                                                       |
-| --------------- | :----: | ----------------------------------------------------------- |
-| Linux + CUDA    |   ✅   | Full speed, 4-bit / 8-bit quantization via `bitsandbytes`   |
-| Windows + CUDA  |   ✅   | Same as Linux                                               |
-| Apple Silicon   |   ✅   | MPS-accelerated (M1/M2/M3/M4), float16                      |
-| Intel Mac / CPU |   ✅   | Float32 fallback, slow on big models but works              |
-| No GPU at all   |   ✅   | CPU mode — fine for GPT-2 / DistilGPT-2 class              
-<No model size limit.** Load 70B, 405B, whatever your hardware can handle.
+## Hardware
 
 <div align="center">
 
-##  What's inside
-<div align="center">
+| Platform | Status | Notes |
+|----------|:------:|-------|
+| Linux + CUDA | ✅ | Full speed, 4-bit / 8-bit quantization via `bitsandbytes` |
+| Windows + CUDA | ✅ | Same as Linux |
+| Apple Silicon | ✅ | MPS-accelerated (M1/M2/M3/M4), float16 |
+| Intel Mac / CPU | ✅ | Float32 fallback, slow on big models but works |
+| No GPU at all | ✅ | CPU mode — fine for GPT-2 / DistilGPT-2 class |
+
+No model size limit. Load 70B, 405B, whatever your hardware can handle.
+
+</div>
+
+---
+
+## What's inside
+
 ```
 neural_xray/
   loader.py         model loading + auto quantization (CUDA / MPS / CPU)
@@ -292,15 +295,14 @@ neural_xray/
   cli.py            command-line interface
   server/           FastAPI + bundled React dashboard
 ```
-</div>
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Issues, PRs, screenshots, demos — all welcome.
 
-##  License
+## License
 
 MIT. Use it however you want.
 
@@ -308,23 +310,20 @@ MIT. Use it however you want.
 
 <div align="center">
 
-**Built for the next generation of mechanistic interpretability.** • 
+**Built for the next generation of mechanistic interpretability.**
 
-[File an issue](https://github.com/HeavenFYouMissed/neural-xray/issues) • 
+[File an issue](https://github.com/HeavenFYouMissed/neural-xray/issues) · [Buy Me a Coffee](https://www.buymeacoffee.com/HeavenFYouMissed)
 
-<div align="center">
+<br/>
 
-  <img width="180" height="180" alt="qr-code" src="https://github.com/user-attachments/assets/85ea0abb-19eb-4a86-9398-42e5b5a7adff" /> 
-</div>
----
+<a href="https://www.buymeacoffee.com/HeavenFYouMissed" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px !important;width: 217px !important;" /></a>
 
-  <div align="center">
-    
-<a href="https://www.buymeacoffee.com/HeavenFYouMissed" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<br/><br/>
 
----
+<img width="180" height="180" alt="QR code" src="https://github.com/user-attachments/assets/85ea0abb-19eb-4a86-9398-42e5b5a7adff" />
 
-<div align="center">
-  
- Star if this is useful • 
+<br/>
+
+⭐ Star if this is useful
+
 </div>
