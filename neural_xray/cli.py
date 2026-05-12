@@ -149,6 +149,25 @@ def cmd_map(args):
         print(f"Architecture saved to {out}")
 
 
+def _check_for_updates():
+    """Non-blocking update check — compares installed version to latest GitHub release."""
+    try:
+        import urllib.request, json as _json
+        from neural_xray import __version__ as installed
+        req = urllib.request.Request(
+            "https://api.github.com/repos/HeavenFYouMissed/neural-xray/releases/latest",
+            headers={"User-Agent": "neural-xray-update-check"},
+        )
+        with urllib.request.urlopen(req, timeout=4) as r:
+            data = _json.loads(r.read())
+        latest = data.get("tag_name", "").lstrip("v")
+        if latest and latest != installed:
+            print(f"\n[neural-xray] Update available: v{installed} → v{latest}")
+            print(f"[neural-xray] Run:  pip install --upgrade \"git+https://github.com/HeavenFYouMissed/neural-xray.git\"\n")
+    except Exception:
+        pass  # never block startup — network down, rate limit, etc. all silently ignored
+
+
 def cmd_serve(args):
     """Launch the full GUI dashboard (FastAPI + bundled React app)."""
     import webbrowser
@@ -168,6 +187,8 @@ def cmd_serve(args):
     url = f"http://{args.host}:{args.port}"
     print(f"[neural-xray] Launching dashboard at {url}")
     print(f"[neural-xray] Press Ctrl+C to stop.")
+
+    threading.Thread(target=_check_for_updates, daemon=True).start()
 
     if not args.no_browser:
         def _open():
