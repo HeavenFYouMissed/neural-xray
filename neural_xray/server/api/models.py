@@ -124,11 +124,11 @@ async def list_loaded():
     return [_session_to_info(s) for s in state.sessions.values()]
 
 
-@router.get("/{model_id}/architecture")
+@router.get("/{model_id:path}/architecture")
 async def get_architecture(model_id: str):
     """Get the full architecture map for a loaded model."""
     from urllib.parse import unquote
-    model_id = unquote(model_id)  # path param arrives as openai-community%2Fgpt2
+    model_id = unquote(model_id)  # handles both encoded (%2F) and raw slash forms
     try:
         sess = state.get_session(model_id)
     except KeyError:
