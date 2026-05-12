@@ -69,8 +69,11 @@ class ArchitectureMap:
                     "name": l.name,
                     "has_attention": l.has_attention,
                     "has_mlp": l.has_mlp,
+                    "attn_path": l.attn_path,
                     "mlp_path": l.mlp_path,
+                    "mlp_w1_shape": list(l.mlp_w1_shape) if l.mlp_w1_shape else None,
                     "mlp_w2_shape": list(l.mlp_w2_shape) if l.mlp_w2_shape else None,
+                    "hidden_size": l.hidden_size,
                 }
                 for l in self.layers
             ],
