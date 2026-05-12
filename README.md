@@ -131,6 +131,7 @@ CPU works for GPT-2-scale demos and learning the UI. For real models and surgery
 - **Layer Map** — see which concepts live where
 - **Attention** — visualize attention head patterns
 - **SAE** — sparse autoencoder feature decomposition
+- **Arch** — zone-colored architecture diagram of every transformer layer
 
 </td>
 <td width="50%" valign="top">
@@ -141,6 +142,7 @@ CPU works for GPT-2-scale demos and learning the UI. For real models and surgery
 - **Patching** — causal tracing & activation patching
 - **Stepthrough** — step layer-by-layer like a debugger
 - **Compare** — diff two models side-by-side
+- **Guide** — visual explainer: how transformers store knowledge
 
 </td>
 </tr>
@@ -212,6 +214,32 @@ Cross-model knowledge transplant, concept removal, and attention head visualizat
 <td><img width="1903" height="1070" alt="Model Compare" src="https://github.com/user-attachments/assets/f846d36d-29bc-4ff1-b69f-a8bde8223661" /></td>
 </tr>
 </table>
+
+---
+
+### Guide
+
+<div align="center">
+
+<!-- Guide screenshot — replace src with uploaded image URL -->
+<!-- <img width="1200" height="700" alt="Guide tab — visual explainer of how transformers store knowledge" src="YOUR_SCREENSHOT_URL_HERE" /> -->
+
+> **How transformers store knowledge** — an illustrated walkthrough of zones, layers, the residual stream, concept vectors, and why the middle layers are where facts live. Built for people who learn by seeing, not by reading papers.
+
+</div>
+
+---
+
+### Arch
+
+<div align="center">
+
+<!-- Arch screenshot — replace src with uploaded image URL -->
+<!-- <img width="1200" height="700" alt="Arch tab — zone-colored architecture flowchart of every transformer layer" src="YOUR_SCREENSHOT_URL_HERE" /> -->
+
+> **Architecture diagram for any loaded model.** Every layer shown as a block, colored by zone (syntax → fact → reasoning), with weight shapes, MLP expansion ratio, and fact-zone boundaries. Click any layer to jump to it in Trace or Patching.
+
+</div>
 
 ---
 
