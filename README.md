@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🧠 neural-xray
+<img width="1184" height="532" alt="image (3)" src="https://github.com/user-attachments/assets/563767cd-f789-47e1-8333-910c29cc2119" />
+
+#  Neural-Xray
 
 ### **X-ray vision into any LLM — see where concepts live, how they flow, what can be cut.**
 
@@ -18,7 +20,7 @@
 
 <div align="center">
 
-### 🚀 One command. Full dashboard.
+###  One command. Full dashboard.
 
 ```bash
 pip install git+https://github.com/HeavenFYouMissed/neural-xray.git
@@ -31,13 +33,13 @@ neural-xray serve
 
 ---
 
-## ✨ What you get
+##  What you get
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-### 🔬 The Lab
+###  The Lab
 - **Trace** — watch a concept flow through every layer
 - **Diagnose** — 7-layer health scan in one click
 - **Layer Map** — see which concepts live where
@@ -47,7 +49,7 @@ neural-xray serve
 </td>
 <td width="50%" valign="top">
 
-### 🩺 The OR
+###  The OR
 - **Surgery** — transplant knowledge between models
 - **Abliterate** — remove a concept direction permanently
 - **Patching** — causal tracing & activation patching
@@ -60,10 +62,10 @@ neural-xray serve
 
 ---
 
-## 🖼️ The Dashboard
+##  The Dashboard
 
 > Screenshots dropping soon — placeholders below.
-
+<img width="1361" height="1016" alt="Screenshot 2026-04-06 064623" src="https://github.com/user-attachments/assets/555436fe-eebc-46df-8507-01ecb16423c6" />
 <div align="center">
 
 ### Trace · Layer Map · Diagnostics
@@ -74,11 +76,17 @@ neural-xray serve
 <td align="center" width="33%"><b>Diagnostics</b></td>
 </tr>
 <tr>
-<td><img src="https://placehold.co/600x400/0d1117/58a6ff?text=Trace+View" alt="Trace View"></td>
-<td><img src="https://placehold.co/600x400/0d1117/58a6ff?text=Layer+Map" alt="Layer Map"></td>
-<td><img src="https://placehold.co/600x400/0d1117/58a6ff?text=Diagnostics" alt="Diagnostics"></td>
-</tr>
+<td><img width="1438" height="823" alt="image" src="https://github.com/user-attachments/assets/904c0e1c-d329-459a-b8cd-ca9df22a69da" />
+<td><img width="1913" height="1084" alt="image" src="https://github.com/user-attachments/assets/2861cadc-c3cd-460b-aeec-084cb0ce11e5" />
+<td><img width="1437" height="812" alt="image" src="https://github.com/user-attachments/assets/563fcd48-18d6-4cce-86cf-46714cbb990b" />
+
 </table>
+
+
+
+
+
+
 
 ### Surgery · Abliterate · Attention
 <table>
@@ -112,7 +120,7 @@ neural-xray serve
 
 ---
 
-## ⚡ Quick start
+##  Quick start
 
 ### Option A — The full GUI
 
@@ -152,9 +160,9 @@ report = ModelDiagnostics(loader).run_all()
 print(f"Overall: {report.overall_score:.3f}")
 ```
 
----
+<div align="center">
 
-## 🖥️ Hardware
+##  Hardware
 
 | Platform        | Status | Notes                                                       |
 | --------------- | :----: | ----------------------------------------------------------- |
@@ -162,14 +170,13 @@ print(f"Overall: {report.overall_score:.3f}")
 | Windows + CUDA  |   ✅   | Same as Linux                                               |
 | Apple Silicon   |   ✅   | MPS-accelerated (M1/M2/M3/M4), float16                      |
 | Intel Mac / CPU |   ✅   | Float32 fallback, slow on big models but works              |
-| No GPU at all   |   ✅   | CPU mode — fine for GPT-2 / DistilGPT-2 class               |
+| No GPU at all   |   ✅   | CPU mode — fine for GPT-2 / DistilGPT-2 class              
+<No model size limit.** Load 70B, 405B, whatever your hardware can handle.
 
-> **No model size limit.** Load 70B, 405B, whatever your hardware can handle.
+<div align="center">
 
----
-
-## 📦 What's inside
-
+##  What's inside
+<div align="center">
 ```
 neural_xray/
   loader.py         model loading + auto quantization (CUDA / MPS / CPU)
@@ -188,6 +195,7 @@ neural_xray/
   cli.py            command-line interface
   server/           FastAPI + bundled React dashboard
 ```
+</div>
 
 ---
 
@@ -195,7 +203,7 @@ neural_xray/
 
 Issues, PRs, screenshots, demos — all welcome.
 
-## 📄 License
+##  License
 
 MIT. Use it however you want.
 
@@ -203,8 +211,23 @@ MIT. Use it however you want.
 
 <div align="center">
 
-**Built for the next generation of mechanistic interpretability.**
+**Built for the next generation of mechanistic interpretability.** • 
 
-⭐ Star if this is useful • 🐛 [File an issue](https://github.com/HeavenFYouMissed/neural-xray/issues) • 🔭 [model-surgery.com](https://model-surgery.com)
+[File an issue](https://github.com/HeavenFYouMissed/neural-xray/issues) • 
 
+<div align="center">
+
+  <img width="180" height="180" alt="qr-code" src="https://github.com/user-attachments/assets/85ea0abb-19eb-4a86-9398-42e5b5a7adff" /> 
+</div>
+---
+
+  <div align="center">
+    
+<a href="https://www.buymeacoffee.com/HeavenFYouMissed" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+---
+
+<div align="center">
+  
+ Star if this is useful • 
 </div>
