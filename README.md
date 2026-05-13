@@ -80,7 +80,6 @@ All runs logged in [`docs/surgery_test_log.md`](docs/surgery_test_log.md). Raw J
 
 | Scale | Donor → Target | Concepts | Result | Notes |
 |-------|----------------|----------|--------|-------|
-| 124M | GPT-2 → DistilGPT-2 | 3 | **+15.5%** probe alignment | Full before/after evidence pack saved |
 | 7B | Pythia-6.9B → Mistral-7B | 25 | **98.9%** mean cosine | Per-concept JSON; null baseline 1.2% |
 | 7B + train | Mistral → Pythia + fine-tune | 4 | **20/20 eval wins**, 50% faster convergence | ARM B beats control at every checkpoint |
 | 7B self-surgery | Pythia only (no donor) | — | All 3 approaches failed | Strengthens the cross-model case |
@@ -221,6 +220,7 @@ Cross-model knowledge transplant, concept removal, and attention head visualizat
 
 <div align="center">
 
+<img width="811" height="906" alt="Screenshot 2026-05-13 034611" src="https://github.com/user-attachments/assets/7535261a-2d92-4bae-8870-de438b5a1678" />
 <!-- Guide screenshot — replace src with uploaded image URL -->
 <!-- <img width="1200" height="700" alt="Guide tab — visual explainer of how transformers store knowledge" src="YOUR_SCREENSHOT_URL_HERE" /> -->
 
@@ -234,8 +234,8 @@ Cross-model knowledge transplant, concept removal, and attention head visualizat
 
 <div align="center">
 
-<!-- Arch screenshot — replace src with uploaded image URL -->
-<!-- <img width="1200" height="700" alt="Arch tab — zone-colored architecture flowchart of every transformer layer" src="YOUR_SCREENSHOT_URL_HERE" /> -->
+<img width="1885" height="1036" alt="Screenshot 2026-05-13 034440" src="https://github.com/user-attachments/assets/17d90916-5e0c-4612-97cd-28fade7674db" />
+
 
 > **Architecture diagram for any loaded model.** Every layer shown as a block, colored by zone (syntax → fact → reasoning), with weight shapes, MLP expansion ratio, and fact-zone boundaries. Click any layer to jump to it in Trace or Patching.
 
